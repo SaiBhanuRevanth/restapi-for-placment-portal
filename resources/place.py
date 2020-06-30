@@ -6,6 +6,7 @@ from db import query
 
 class Phase(Resource):
     def get(self):
+        print(" ")
         parser=reqparse.RequestParser()
         parser.add_argument('roll_no',type=int,required=True,help='roll_no cannot be left blank')
         data=parser.parse_args()
