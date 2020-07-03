@@ -2,7 +2,7 @@ from  flask import jsonify
 from werkzeug.security import safe_str_cmp
 from flask_jwt_extended import create_access_token,jwt_required
 from flask_restful import Resource,reqparse
-from db import db
+from db import query
 
 class Phase(Resource):
     def get(self):
