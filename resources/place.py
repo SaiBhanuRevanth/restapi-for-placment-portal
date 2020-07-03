@@ -2,7 +2,7 @@ from  flask import jsonify
 from werkzeug.security import safe_str_cmp
 from flask_jwt_extended import create_access_token,jwt_required
 from flask_restful import Resource,reqparse
-from db import query
+from db import db
 
 class Phase(Resource):
     def get(self):
@@ -92,6 +92,17 @@ class PlaceLogin(Resource):
                return {"message":"There was an error cannot connect"},500
         return {'message':"Invalid Credentials"},401
 class Registerstud(Resource):
+    def get(self):
+        parser=reqparse.RequestParser()
+        parser.add_argument('company_name',type=str,required=True,help='cannot be left blank')
+        parser.add_argument('job_name',type=str,required=True,help='cannot be left blank')
+        data=parser.parse_args()
+        try:
+            k=query(f"""select * from stdnt.posting where company_name='{data['company_name']}' and job_name='{data['job_name']};'""")
+            return(k)
+        except:
+            return{"message":"There was an error"}
+    
     def post(self):
         parser=reqparse.RequestParser()
         parser.add_argument('roll_no',type=int,required=True,help='roll_no cannot be left blank')
@@ -308,5 +319,3 @@ class userupdate(Resource):
             return {"message":"success updated."},201 
         except:
             return {"message":"There was an error cannot connect"},500
-
-
